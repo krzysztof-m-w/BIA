@@ -27,18 +27,18 @@ void DataLoader::load_file_names(const std::string& data_dir)
                 auto it = std::find_if(file_list.begin(), file_list.end(), [&stem](const std::string& file) {
                     return std::filesystem::path(file).stem().string() == stem;
                 });
-                
+
                 if (it != file_list.end())
                 {
                     if(extension == ".dat")
                         path_pairs[stem] = std::make_tuple(path, *it);
                     else
                         path_pairs[stem] = std::make_tuple(*it, path);
+                        this->example_names.push_back(stem);
                 }
             }
             
             file_list.push_back(entry.path().string());
-            this->example_names.push_back(stem);
         }
     }
 };
@@ -79,8 +79,7 @@ ProblemInstance DataLoader::_load_problem_instance(std::string file_name)
     int* optimal_solution = new int[n];
     file2 >> n2;
     if(n != n2) {
-        std::cerr << "Error: n != n2" << std::endl;
-        exit(1);
+        std::cerr << "Error: n != n2 for " << file_path1 << " " << file_path2 << std::endl;
     }
     file2 >> optimal_cost;
     for (int i = 0; i < n; ++i) {
