@@ -28,7 +28,6 @@ ProblemInstance::ProblemInstance(int n, std::string name, int** matrix1, int** m
     this->optimal_solution = new int[n];
     std::copy(optimal_solution, optimal_solution + n, this->optimal_solution);
 
-    this->neighborhood_2opt = std::vector<std::tuple<int, int>>();
     for(int i = 0; i < n; i++){
         for(int j = i + 1; j < n; j++){
             this->neighborhood_2opt.push_back(std::make_tuple(i, j));
@@ -56,6 +55,8 @@ ProblemInstance::ProblemInstance(const ProblemInstance& other){
 
     this->optimal_solution = new int[n];
     std::copy(other.optimal_solution, other.optimal_solution + n, this->optimal_solution);
+
+    neighborhood_2opt = other.neighborhood_2opt;
 }
 
 ProblemInstance::~ProblemInstance()

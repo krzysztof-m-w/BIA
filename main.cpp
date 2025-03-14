@@ -20,5 +20,7 @@ int main() {
     for(auto it = pi.get_neighborhood_iterator(); it != pi.get_neighborhood_end(); it++){
         std::cout << std::get<0>(*it) << " " << std::get<1>(*it) << std::endl;
     }
+
+    
     return 0;
 }
