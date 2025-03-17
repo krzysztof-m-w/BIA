@@ -2,6 +2,7 @@
 #include <vector>
 #include "ProblemInstance.h"
 #include "random.h"
+#include <tuple>
 
 ProblemInstance::ProblemInstance(/* args */)
 {
@@ -86,36 +87,24 @@ int ProblemInstance::compute_cost_quadratic(int* solution)
     return cost;
 }
 
-int ProblemInstance::compute_cost_delta(int* solution, int a, int b, int old_cost) {
+int ProblemInstance::compute_cost_delta(int* permutation, int i, int j, int old_cost) {    
     int delta = 0;
-    int fa = solution[a]; // Facility at position 'a'
-    int fb = solution[b]; // Facility at position 'b'
+    int pi_i = permutation[i];
+    int pi_j = permutation[j];
 
-    // Compute the change in cost caused by swapping fa and fb
-    for (int i = 0; i < this->n; i++) {
-        if (i != a && i != b) {
-            int fi = solution[i]; // Facility at position i
-
-            // Contributions before swap
-            int before = this->matrix1[a][i] * this->matrix2[fa][fi] +
-                         this->matrix1[b][i] * this->matrix2[fb][fi] +
-                         this->matrix1[i][a] * this->matrix2[fi][fa] +
-                         this->matrix1[i][b] * this->matrix2[fi][fb];
-
-            // Contributions after swap
-            int after = this->matrix1[a][i] * this->matrix2[fb][fi] +
-                        this->matrix1[b][i] * this->matrix2[fa][fi] +
-                        this->matrix1[i][a] * this->matrix2[fi][fb] +
-                        this->matrix1[i][b] * this->matrix2[fi][fa];
-
-            delta += (after - before);
+    int** matrixA = this->matrix1;
+    int** matrixB = this->matrix2;
+    
+    for (int k = 0; k < this->n; ++k) {
+        if (k != i && k != j) {
+            delta += (matrixA[i][k] * (matrixB[pi_j][permutation[k]] - matrixB[pi_i][permutation[k]])) +
+                     (matrixA[j][k] * (matrixB[pi_i][permutation[k]] - matrixB[pi_j][permutation[k]])) +
+                     (matrixA[k][i] * (matrixB[permutation[k]][pi_j] - matrixB[permutation[k]][pi_i])) +
+                     (matrixA[k][j] * (matrixB[permutation[k]][pi_i] - matrixB[permutation[k]][pi_j]));
         }
     }
-
-    // Self-contribution changes
-    delta += (this->matrix1[a][a] * (this->matrix2[fb][fb] - this->matrix2[fa][fa]) +
-              this->matrix1[b][b] * (this->matrix2[fa][fa] - this->matrix2[fb][fb]));
-
+    delta += (matrixA[i][j] * (matrixB[pi_j][pi_i] - matrixB[pi_i][pi_j])) +
+             (matrixA[j][i] * (matrixB[pi_i][pi_j] - matrixB[pi_j][pi_i]));    
     return delta;
 }
 

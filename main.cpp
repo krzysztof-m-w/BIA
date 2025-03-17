@@ -7,7 +7,7 @@
 void test_data_correctness(std::vector<ProblemInstance> &problem_instances);
 
 int main() {
-    DataLoader dl = DataLoader("qap/qapdatsol");
+    DataLoader dl = DataLoader("qapdatsol");
     for(int i = 0; i < dl.example_names.size(); i++){
         dl.load_problem_instance(i);
     }
@@ -24,6 +24,8 @@ int main() {
             int cost1 = pi.compute_cost_quadratic(solution);
             int delta = pi.compute_cost_delta(pi.optimal_solution, i, j, pi.optimal_cost);
             int cost2 = pi.optimal_cost + delta;
+
+            
             if (cost1 != cost2){
                 std::cout << "Error: " << cost1 << " != " << cost2 << " " << delta << std::endl;
                 std::cout << "i: " << i << " j: " << j << std::endl;
@@ -37,7 +39,7 @@ int main() {
                 std::cout << std::endl;
             }  
         }
-        break; 
+
     }
 
 
