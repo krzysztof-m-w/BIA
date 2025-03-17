@@ -7,6 +7,7 @@ ProblemInstance::ProblemInstance(/* args */)
 {
 }
 
+// Constructor for ProblemInstance
 ProblemInstance::ProblemInstance(int n, std::string name, int** matrix1, int** matrix2, int* optimal_solution, int optimal_cost)
 {
     this->n = n;
@@ -36,6 +37,7 @@ ProblemInstance::ProblemInstance(int n, std::string name, int** matrix1, int** m
 
 }
 
+// Copy constructor for ProblemInstance
 ProblemInstance::ProblemInstance(const ProblemInstance& other){
     this->n = other.n;
     this->name = other.name;
@@ -59,6 +61,7 @@ ProblemInstance::ProblemInstance(const ProblemInstance& other){
     neighborhood_2opt = other.neighborhood_2opt;
 }
 
+// Destructor for ProblemInstance
 ProblemInstance::~ProblemInstance()
 {
     for (int i = 0; i < n; ++i) {
@@ -83,36 +86,39 @@ int ProblemInstance::compute_cost_quadratic(int* solution)
     return cost;
 }
 
-int ProblemInstance::compute_cost_delta(int* solution, int a, int b, int old_cost)
-{
+int ProblemInstance::compute_cost_delta(int* solution, int a, int b, int old_cost) {
     int delta = 0;
-    int fa = solution[a]; 
-    int fb = solution[b]; 
+    int fa = solution[a]; // Facility at position 'a'
+    int fb = solution[b]; // Facility at position 'b'
 
-    for (int i = 0; i < this->n; i++)
-    {
+    // Compute the change in cost caused by swapping fa and fb
+    for (int i = 0; i < this->n; i++) {
         if (i != a && i != b) {
-            delta -= this->matrix1[a][i] * this->matrix2[fa][solution[i]];
-            delta -= this->matrix1[i][a] * this->matrix2[solution[i]][fa];
-            delta -= this->matrix1[b][i] * this->matrix2[fb][solution[i]];
-            delta -= this->matrix1[i][b] * this->matrix2[solution[i]][fb];
+            int fi = solution[i]; // Facility at position i
 
-            delta += this->matrix1[a][i] * this->matrix2[fb][solution[i]];
-            delta += this->matrix1[i][a] * this->matrix2[solution[i]][fb];
-            delta += this->matrix1[b][i] * this->matrix2[fa][solution[i]];
-            delta += this->matrix1[i][b] * this->matrix2[solution[i]][fa];
+            // Contributions before swap
+            int before = this->matrix1[a][i] * this->matrix2[fa][fi] +
+                         this->matrix1[b][i] * this->matrix2[fb][fi] +
+                         this->matrix1[i][a] * this->matrix2[fi][fa] +
+                         this->matrix1[i][b] * this->matrix2[fi][fb];
+
+            // Contributions after swap
+            int after = this->matrix1[a][i] * this->matrix2[fb][fi] +
+                        this->matrix1[b][i] * this->matrix2[fa][fi] +
+                        this->matrix1[i][a] * this->matrix2[fi][fb] +
+                        this->matrix1[i][b] * this->matrix2[fi][fa];
+
+            delta += (after - before);
         }
     }
 
-    // Also account for self-connections
-    delta -= this->matrix1[a][b] * this->matrix2[fa][fb];
-    delta -= this->matrix1[b][a] * this->matrix2[fb][fa];
+    // Self-contribution changes
+    delta += (this->matrix1[a][a] * (this->matrix2[fb][fb] - this->matrix2[fa][fa]) +
+              this->matrix1[b][b] * (this->matrix2[fa][fa] - this->matrix2[fb][fb]));
 
-    delta += this->matrix1[a][b] * this->matrix2[fb][fa];
-    delta += this->matrix1[b][a] * this->matrix2[fa][fb];
-
-    return old_cost + delta;
+    return delta;
 }
+
 
 void ProblemInstance::shuffle_neighborhood_2opt()
 {
@@ -127,4 +133,14 @@ std::vector<std::tuple<int, int>>::iterator ProblemInstance::get_neighborhood_it
 std::vector<std::tuple<int, int>>::iterator ProblemInstance::get_neighborhood_end()
 {
     return this->neighborhood_2opt.end();
+}
+
+int** ProblemInstance::get_matrix1()
+{
+    return this->matrix1;
+}
+
+int** ProblemInstance::get_matrix2()
+{
+    return this->matrix2;
 }

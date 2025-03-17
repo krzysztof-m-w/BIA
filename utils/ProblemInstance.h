@@ -25,6 +25,8 @@ public:
     void shuffle_neighborhood_2opt();
     std::vector<std::tuple<int, int>>::iterator get_neighborhood_iterator();
     std::vector<std::tuple<int, int>>::iterator get_neighborhood_end();
+    int** get_matrix1();
+    int** get_matrix2();
 };
 
 #endif
