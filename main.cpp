@@ -5,14 +5,34 @@
 #include "utils/DataLoader.h"
 
 void test_data_correctness(std::vector<ProblemInstance> &problem_instances);
+void test_delta(DataLoader &pi);
 
 int main() {
-    DataLoader dl = DataLoader("qapdatsol");
+    DataLoader dl = DataLoader("qap/qapdatsol");
     for(int i = 0; i < dl.example_names.size(); i++){
         dl.load_problem_instance(i);
     }
     test_data_correctness(dl.problem_instances);
+    test_delta(dl);
+    
 
+
+    return 0;
+}
+
+void test_data_correctness(std::vector<ProblemInstance> &problem_instances){
+    for(auto& pi : problem_instances){
+        int* solution = new int[pi.n];
+        std::copy(pi.optimal_solution, pi.optimal_solution + pi.n, solution);
+        int optimal_cost = pi.compute_cost_quadratic(pi.optimal_solution);
+        if(optimal_cost != pi.optimal_cost){
+            std::cout << "Error: " << optimal_cost << " != " << pi.optimal_cost << std::endl;
+            std::cout << "Name: " << pi.name << std::endl;
+        }
+    }
+}
+
+void test_delta(DataLoader &dl){
     for(auto& pi : dl.problem_instances){
         int* solution = new int[pi.n];
         
@@ -42,19 +62,4 @@ int main() {
 
     }
 
-
-
-    return 0;
-}
-
-void test_data_correctness(std::vector<ProblemInstance> &problem_instances){
-    for(auto& pi : problem_instances){
-        int* solution = new int[pi.n];
-        std::copy(pi.optimal_solution, pi.optimal_solution + pi.n, solution);
-        int optimal_cost = pi.compute_cost_quadratic(pi.optimal_solution);
-        if(optimal_cost != pi.optimal_cost){
-            std::cout << "Error: " << optimal_cost << " != " << pi.optimal_cost << std::endl;
-            std::cout << "Name: " << pi.name << std::endl;
-        }
-    }
 }
