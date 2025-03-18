@@ -3,19 +3,26 @@
 #include "utils/random.h"
 #include "utils/time_measure.h"
 #include "utils/DataLoader.h"
+#include "solvers/HeuristicSolver.h"
 
 void test_data_correctness(std::vector<ProblemInstance> &problem_instances);
 void test_delta(DataLoader &pi);
 
 int main() {
-    DataLoader dl = DataLoader("qap/qapdatsol");
+    DataLoader dl = DataLoader("qap/test");
     for(int i = 0; i < dl.example_names.size(); i++){
         dl.load_problem_instance(i);
     }
-    test_data_correctness(dl.problem_instances);
-    test_delta(dl);
-    
+    ProblemInstance* pi = &dl.problem_instances[0];
+    Solver* solver = new HeuristicSolver();
+    solver->set_problem_instance(pi);
+    int* solution = solver->solve();
+    int cost = pi->compute_cost_quadratic(solution);
 
+    std::cout << "Cost: " << cost << std::endl;
+    for(int i = 0; i < pi->n; i++){
+        std::cout << solution[i] << " ";
+    }
 
     return 0;
 }

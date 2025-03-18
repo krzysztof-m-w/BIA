@@ -2,6 +2,8 @@
 #define PROBLEM_INSTANCE_H
 
 #include <iostream>
+#include <vector>
+#include <tuple>
 
 class ProblemInstance
 {
