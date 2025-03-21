@@ -4,17 +4,24 @@
 int get_random_number(int n);
 
 template<typename T>
-void shuffle(T& container) {
-    auto n = std::distance(std::begin(container), std::end(container));
+void shuffle(std::vector<T>& container) {
+    auto n = static_cast<int>(container.size());
     for (int i = n - 1; i > 0; --i) {
         auto j = get_random_number(i);
-        std::iter_swap(std::begin(container) + i, std::begin(container) + j);
+        std::iter_swap(container.begin() + i, container.begin() + j);
     }
 }
 
 template<std::size_t N>
-void shuffle(int (&array)[N]) {
+inline void shuffle(int (&array)[N]) {
     for (std::size_t i = N - 1; i > 0; --i) {
+        auto j = get_random_number(i);
+        std::swap(array[i], array[j]);
+    }
+}
+
+inline void shuffle(int* array, int n){
+    for (int i = n - 1; i > 0; --i) {
         auto j = get_random_number(i);
         std::swap(array[i], array[j]);
     }

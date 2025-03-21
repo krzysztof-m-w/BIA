@@ -47,6 +47,11 @@ ProblemInstance DataLoader::_load_problem_instance(std::string file_name)
 {
     std::string file_path1 = std::get<0>(path_pairs[file_name]);
     std::string file_path2 = std::get<1>(path_pairs[file_name]);
+
+    if(file_path1.empty() || file_path2.empty()){
+        std::cerr << "Incorrect problem name: " << file_name << std::endl;
+        exit(1);
+    }
     
     // load the first file
     std::ifstream file1(file_path1);
@@ -80,6 +85,7 @@ ProblemInstance DataLoader::_load_problem_instance(std::string file_name)
     file2 >> n2;
     if(n != n2) {
         std::cerr << "Error: n != n2 for " << file_path1 << " " << file_path2 << std::endl;
+        exit(1);
     }
     file2 >> optimal_cost;
     for (int i = 0; i < n; ++i) {

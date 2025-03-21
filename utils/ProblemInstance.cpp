@@ -14,6 +14,7 @@ ProblemInstance::ProblemInstance(int n, std::string name, int** matrix1, int** m
     this->n = n;
     this->name = std::move(name);
     this->optimal_cost = optimal_cost;
+    this->neighborhood_2opt_size = n * (n - 1) / 2;
 
     this->matrix1 = new int*[n];
     for (int i = 0; i < n; ++i) {
@@ -43,6 +44,7 @@ ProblemInstance::ProblemInstance(const ProblemInstance& other){
     this->n = other.n;
     this->name = other.name;
     this->optimal_cost = other.optimal_cost;
+    this->neighborhood_2opt_size = other.neighborhood_2opt_size;
 
     this->matrix1 = new int*[n];
     for (int i = 0; i < n; ++i) {
@@ -132,4 +134,20 @@ int** ProblemInstance::get_matrix1()
 int** ProblemInstance::get_matrix2()
 {
     return this->matrix2;
+}
+
+int* ProblemInstance::get_random_solution()
+{
+    int* solution = new int[this->n];
+    for (int i = 0; i < this->n; i++)
+    {
+        solution[i] = i;
+    }
+    shuffle(solution, this->n);
+    return solution;
+}
+
+int ProblemInstance::get_neighborhood_2opt_size()
+{
+    return this->neighborhood_2opt_size;
 }
