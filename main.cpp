@@ -5,12 +5,13 @@
 #include "utils/DataLoader.h"
 #include "solvers/HeuristicSolver.h"
 #include "solvers/RandomWalkSolver.h"
+#include "solvers/RandomSearchSolver.h"
 
 std::vector<std::string> problem_names = {"bur26a"};
 
 int main() {
     DataLoader dl = DataLoader("qap/qapdatsol");
-    Solver* solver = new RandomWalkSolver();
+    Solver* solver = new RandomSearchSolver();
 
     for(auto problem_name : problem_names){
         dl.load_problem_instance(problem_name);

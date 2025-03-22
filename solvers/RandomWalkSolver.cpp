@@ -2,20 +2,13 @@
 #include "../utils/time_measure.h"
 #include "../utils/random.h"
 
-RandomWalkSolver::RandomWalkSolver(){
-    this->iterations_counter = 0;
+RandomWalkSolver::RandomWalkSolver() : Solver(){
     this->max_time = 1.0;
 }
 
-RandomWalkSolver::~RandomWalkSolver(){
-}
 
 void RandomWalkSolver::set_max_time(float max_time){
     this->max_time = max_time;
-}
-
-int RandomWalkSolver::get_iterations_counter(){
-    return this->iterations_counter;
 }
 
 int* RandomWalkSolver::solve(){
@@ -48,6 +41,8 @@ int* RandomWalkSolver::solve(){
             std::copy(current_solution, current_solution + this->problem_instance->n, best_solution);
             best_cost = current_cost;
         }
+
+        this->iterations_counter++;
 
     }
     return current_solution;
