@@ -151,3 +151,8 @@ int ProblemInstance::get_neighborhood_2opt_size()
 {
     return this->neighborhood_2opt_size;
 }
+
+void ProblemInstance::apply_move_2opt(int* const solution, int i, int j)
+{
+    std::swap(solution[i], solution[j]);
+}

@@ -33,6 +33,7 @@ public:
     int** get_matrix2();
     int* get_random_solution();
     int get_neighborhood_2opt_size();
+    void apply_move_2opt(int* solution, int i, int j);
 };
 
 #endif

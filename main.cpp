@@ -6,12 +6,13 @@
 #include "solvers/HeuristicSolver.h"
 #include "solvers/RandomWalkSolver.h"
 #include "solvers/RandomSearchSolver.h"
+#include "solvers/SteepestSearchSolver.h"
 
 std::vector<std::string> problem_names = {"bur26a"};
 
 int main() {
     DataLoader dl = DataLoader("qap/qapdatsol");
-    Solver* solver = new RandomSearchSolver();
+    Solver* solver = new SteepestSearchSolver();
 
     for(auto problem_name : problem_names){
         dl.load_problem_instance(problem_name);
