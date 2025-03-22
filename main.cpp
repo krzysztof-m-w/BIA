@@ -8,6 +8,7 @@
 #include "solvers/RandomSearchSolver.h"
 #include "solvers/SteepestSearchSolver.h"
 #include "solvers/GreedySearchSolver.h"
+#include "evaluation/SolverEvaluator.h"
 
 std::vector<std::string> problem_names = {"bur26a"};
 
