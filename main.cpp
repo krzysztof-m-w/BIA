@@ -7,12 +7,13 @@
 #include "solvers/RandomWalkSolver.h"
 #include "solvers/RandomSearchSolver.h"
 #include "solvers/SteepestSearchSolver.h"
+#include "solvers/GreedySearchSolver.h"
 
 std::vector<std::string> problem_names = {"bur26a"};
 
 int main() {
     DataLoader dl = DataLoader("qap/qapdatsol");
-    Solver* solver = new SteepestSearchSolver();
+    Solver* solver = new GreedySearchSolver();
 
     for(auto problem_name : problem_names){
         dl.load_problem_instance(problem_name);

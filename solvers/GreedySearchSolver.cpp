@@ -1,17 +1,17 @@
-#include "SteepestSearchSolver.h"
+#include "GreedySearchSolver.h"
 
-SteepestSearchSolver::SteepestSearchSolver() : Solver() {
+GreedySearchSolver::GreedySearchSolver() : Solver() {
     this->ininitialSolution = NULL;
 }
 
-SteepestSearchSolver::~SteepestSearchSolver() {
+GreedySearchSolver::~GreedySearchSolver() {
     if(this->ininitialSolution != NULL){
         delete[] this->ininitialSolution;
     }
     Solver::~Solver();
 }
 
-void SteepestSearchSolver::set_problem_instance(ProblemInstance* problem_instance) {
+void GreedySearchSolver::set_problem_instance(ProblemInstance* problem_instance) {
     Solver::set_problem_instance(problem_instance);
     if(this->ininitialSolution != NULL){
         delete[] this->ininitialSolution;
@@ -19,41 +19,32 @@ void SteepestSearchSolver::set_problem_instance(ProblemInstance* problem_instanc
     this->ininitialSolution = this->problem_instance->get_random_solution();
 }
 
-int* SteepestSearchSolver::solve(){
+int* GreedySearchSolver::solve(){
     int* currentSolution = this->ininitialSolution;
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);
-    std::tuple<int, int> bestMove;
-    int moveCost, bestMoveCost;
+    int moveCost;
     bool improvement = true;
     int i, j;
 
     while(true){
-        bestMoveCost = 0;
         improvement = false;
 
         for(auto neighborhood_it = this->problem_instance->get_neighborhood_iterator(); neighborhood_it != this->problem_instance->get_neighborhood_end(); neighborhood_it++){
             i = std::get<0>(*neighborhood_it);
             j = std::get<1>(*neighborhood_it);
             moveCost = this->problem_instance->compute_cost_delta(currentSolution, i, j, current_cost);
-            if(moveCost < bestMoveCost){
-                bestMoveCost = moveCost;
-                bestMove = *neighborhood_it;
+            if(moveCost < 0){
+                this->problem_instance->apply_move_2opt(currentSolution, i, j);
                 improvement = true;
+                break;
             }
             this->iterations_counter++;
         }
 
-        if(improvement){
-            i = std::get<0>(bestMove);
-            j = std::get<1>(bestMove);
-            current_cost += bestMoveCost;
-            this->problem_instance->apply_move_2opt(currentSolution, i, j);
-        }else{
+        if(!improvement){
             break;
         }
-
     }
 
     return currentSolution;
 }
-    
