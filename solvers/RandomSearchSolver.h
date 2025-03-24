@@ -9,7 +9,7 @@ class RandomSearchSolver : public Solver {
     public:
         RandomSearchSolver();
         ~RandomSearchSolver() {};
-        int* solve();
+        void solve(int* const solution_ptr) override;
         void set_max_time(float max_time);
 };
 

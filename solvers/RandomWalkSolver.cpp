@@ -11,7 +11,7 @@ void RandomWalkSolver::set_max_time(float max_time){
     this->max_time = max_time;
 }
 
-int* RandomWalkSolver::solve(){
+void RandomWalkSolver::solve(int* const solution_ptr){
     int* current_solution = this->problem_instance->get_random_solution();
     int current_cost = this->problem_instance->compute_cost_quadratic(current_solution);
     int n = this->problem_instance->n;
@@ -45,5 +45,6 @@ int* RandomWalkSolver::solve(){
         this->iterations_counter++;
 
     }
-    return current_solution;
+    std::copy(best_solution, best_solution + this->problem_instance->n, solution_ptr);
+    delete[] current_solution;
 }

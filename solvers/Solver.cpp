@@ -21,6 +21,6 @@ int Solver::get_iterations_counter(){
     return this->iterations_counter;
 }
 
-void Solver::reset_sovler(){
+void Solver::reset(){
     this->iterations_counter = 0;
 }

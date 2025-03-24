@@ -5,7 +5,7 @@
 HeuristicSolver::HeuristicSolver() : Solver() {};
 HeuristicSolver::~HeuristicSolver(){};
 
-int* HeuristicSolver::solve(){
+void HeuristicSolver::solve(int* const solution_ptr){
     std::unique_ptr<int[]> sums1 = std::make_unique<int[]>(problem_instance->n);
     std::unique_ptr<int[]> sums2 = std::make_unique<int[]>(problem_instance->n);
 
@@ -32,7 +32,7 @@ int* HeuristicSolver::solve(){
     for(int i = 0; i < problem_instance->n; i++){
         solution[indices_order1[i]] = indices_order2[this->problem_instance->n - i - 1];
     }
-    return solution.release();
+    std::copy(solution.get(), solution.get() + problem_instance->n, solution_ptr);
 }
     
     

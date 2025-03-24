@@ -19,7 +19,15 @@ void SteepestSearchSolver::set_problem_instance(ProblemInstance* problem_instanc
     this->ininitialSolution = this->problem_instance->get_random_solution();
 }
 
-int* SteepestSearchSolver::solve(){
+void SteepestSearchSolver::reset(){
+    Solver::reset();
+    if(this->ininitialSolution != NULL){
+        delete[] this->ininitialSolution;
+    }
+    this->ininitialSolution = this->problem_instance->get_random_solution();
+}
+
+void SteepestSearchSolver::solve(int* const solution_ptr){
     int* currentSolution = this->ininitialSolution;
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);
     std::tuple<int, int> bestMove;
@@ -54,6 +62,6 @@ int* SteepestSearchSolver::solve(){
 
     }
 
-    return currentSolution;
+    std::copy(currentSolution, currentSolution + this->problem_instance->n, solution_ptr);
 }
     

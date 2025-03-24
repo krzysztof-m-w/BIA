@@ -63,6 +63,7 @@ void SolverEvaluator::evaluate_solvers(){
             std::vector<int> costs;
             TimePoint start_time = time_now();
             do{
+                solver->reset();
                 int* solution = solver->solve();
                 solutions.push_back(solution);
                 iteration_counts.push_back(solver->get_iterations_counter());

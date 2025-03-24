@@ -9,8 +9,9 @@ class SteepestSearchSolver : public Solver {
     public:
         SteepestSearchSolver();
         ~SteepestSearchSolver();
-        int* solve();
+        void solve(int* const solution_ptr) override;
         void set_problem_instance(ProblemInstance* problem_instance);
+        void reset();
 };
         
 

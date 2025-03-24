@@ -6,7 +6,7 @@
 class HeuristicSolver : public Solver{
     public:
         HeuristicSolver();
-        int* solve() override;
+        void solve(int* const solution_ptr) override;
         ~HeuristicSolver();
 };
 

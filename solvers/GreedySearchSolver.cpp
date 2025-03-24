@@ -19,7 +19,15 @@ void GreedySearchSolver::set_problem_instance(ProblemInstance* problem_instance)
     this->ininitialSolution = this->problem_instance->get_random_solution();
 }
 
-int* GreedySearchSolver::solve(){
+void GreedySearchSolver::reset(){
+    Solver::reset();
+    if(this->ininitialSolution != NULL){
+        delete[] this->ininitialSolution;
+    }
+    this->ininitialSolution = this->problem_instance->get_random_solution();
+}
+
+void GreedySearchSolver::solve(int* const solution_ptr){
     int* currentSolution = this->ininitialSolution;
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);
     int moveCost;
@@ -46,5 +54,5 @@ int* GreedySearchSolver::solve(){
         }
     }
 
-    return currentSolution;
+    std::copy(currentSolution, currentSolution + this->problem_instance->n, solution_ptr);
 }

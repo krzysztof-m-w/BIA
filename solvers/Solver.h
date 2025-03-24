@@ -8,13 +8,13 @@ class Solver{
         ProblemInstance* problem_instance;
         int iterations_counter;
     public:
-        virtual int* solve() = 0;
+        virtual void solve(int* const solution_ptr) = 0;
         Solver();
         virtual ~Solver();
         virtual void set_problem_instance(ProblemInstance* problem_instance);
         float measure_solve_time();
         int get_iterations_counter();
-        virtual void reset_sovler();       
-};
+        virtual void reset();       
+};;
 
 #endif

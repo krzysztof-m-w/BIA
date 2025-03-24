@@ -7,7 +7,7 @@ RandomSearchSolver::RandomSearchSolver() : Solver() {
     this->max_time = 1.0;
 }
 
-int* RandomSearchSolver::solve() {
+void RandomSearchSolver::solve(int* const solution_ptr) {
     int* best_solution = this->problem_instance->get_random_solution();
     int best_cost = this->problem_instance->compute_cost_quadratic(best_solution);
 
@@ -27,10 +27,9 @@ int* RandomSearchSolver::solve() {
 
         this->iterations_counter++;
     }
-
+    std::copy(best_solution, best_solution + this->problem_instance->n, solution_ptr);
     delete[] current_solution;
-
-    return best_solution;
+    delete[] best_solution;
 }
 
 
