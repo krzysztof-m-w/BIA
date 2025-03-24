@@ -11,6 +11,10 @@ void RandomWalkSolver::set_max_time(float max_time){
     this->max_time = max_time;
 }
 
+std::string RandomWalkSolver::get_name() const {
+    return "RandomWalkSolver";
+}
+
 void RandomWalkSolver::solve(int* const solution_ptr){
     int* current_solution = this->problem_instance->get_random_solution();
     int current_cost = this->problem_instance->compute_cost_quadratic(current_solution);

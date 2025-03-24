@@ -8,6 +8,7 @@ class HeuristicSolver : public Solver{
         HeuristicSolver();
         void solve(int* const solution_ptr) override;
         ~HeuristicSolver();
+        std::string get_name() const override;
 };
 
 

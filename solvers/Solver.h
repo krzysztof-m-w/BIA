@@ -3,7 +3,7 @@
 
 #include "../utils/ProblemInstance.h"
 
-class Solver{
+class Solver {
     protected:
         ProblemInstance* problem_instance;
         int iterations_counter;
@@ -13,7 +13,8 @@ class Solver{
         virtual ~Solver();
         virtual void set_problem_instance(ProblemInstance* problem_instance);
         int get_iterations_counter();
-        virtual void reset();       
-};;
+        virtual void reset();
+        virtual std::string get_name() const = 0;
+};
 
 #endif

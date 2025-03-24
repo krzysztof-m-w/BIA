@@ -27,6 +27,10 @@ void GreedySearchSolver::reset(){
     this->ininitialSolution = this->problem_instance->get_random_solution();
 }
 
+std::string GreedySearchSolver::get_name() const {
+    return "GreedySearchSolver";
+}
+
 void GreedySearchSolver::solve(int* const solution_ptr){
     int* currentSolution = this->ininitialSolution;
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);

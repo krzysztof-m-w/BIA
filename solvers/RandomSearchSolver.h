@@ -11,6 +11,7 @@ class RandomSearchSolver : public Solver {
         ~RandomSearchSolver() {};
         void solve(int* const solution_ptr) override;
         void set_max_time(float max_time);
+        std::string get_name() const override;
 };
 
 #endif

@@ -5,6 +5,10 @@
 HeuristicSolver::HeuristicSolver() : Solver() {};
 HeuristicSolver::~HeuristicSolver(){};
 
+std::string HeuristicSolver::get_name() const{
+    return "HeuristicSolver";
+}
+
 void HeuristicSolver::solve(int* const solution_ptr){
     std::unique_ptr<int[]> sums1 = std::make_unique<int[]>(problem_instance->n);
     std::unique_ptr<int[]> sums2 = std::make_unique<int[]>(problem_instance->n);

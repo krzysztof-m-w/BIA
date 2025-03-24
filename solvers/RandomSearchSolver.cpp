@@ -7,6 +7,14 @@ RandomSearchSolver::RandomSearchSolver() : Solver() {
     this->max_time = 1.0;
 }
 
+void RandomSearchSolver::set_max_time(float max_time) {
+    this->max_time = max_time;
+}
+
+std::string RandomSearchSolver::get_name() const{
+    return "RandomSearchSolver";
+}
+
 void RandomSearchSolver::solve(int* const solution_ptr) {
     int* best_solution = this->problem_instance->get_random_solution();
     int best_cost = this->problem_instance->compute_cost_quadratic(best_solution);
@@ -31,6 +39,3 @@ void RandomSearchSolver::solve(int* const solution_ptr) {
     delete[] current_solution;
     delete[] best_solution;
 }
-
-
-    

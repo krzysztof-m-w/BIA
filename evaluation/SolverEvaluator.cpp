@@ -48,7 +48,7 @@ void SolverEvaluator::save_results(
     }
 
     // Save to file
-    std::ofstream file("data.json");
+    std::ofstream file("results/" + problem_name + "-" + solver_name + ".json");
     if (file.is_open()) {
         file << jsonData.dump(4); 
         file.close();
@@ -86,7 +86,7 @@ void SolverEvaluator::evaluate_solvers(){
             for(auto solution : solutions){
                 costs.push_back(pi.compute_cost_quadratic(solution));
             }
-            this->save_results(pi.name, "test", solutions, iteration_counts, costs, avg_time, pi.n);
+            this->save_results(pi.name, solver->get_name(), solutions, iteration_counts, costs, avg_time, pi.n);
             // Free memory
             for(auto solution : solutions){
                 delete[] solution;

@@ -20,3 +20,7 @@ int Solver::get_iterations_counter(){
 void Solver::reset(){
     this->iterations_counter = 0;
 }
+
+std::string Solver::get_name() const {
+    return "DefaultSolver"; // Replace with the appropriate name for the solver
+}

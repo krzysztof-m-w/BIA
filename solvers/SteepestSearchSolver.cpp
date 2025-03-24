@@ -27,6 +27,10 @@ void SteepestSearchSolver::reset(){
     this->ininitialSolution = this->problem_instance->get_random_solution();
 }
 
+std::string SteepestSearchSolver::get_name() const {
+    return "SteepestSearchSolver";
+}
+
 void SteepestSearchSolver::solve(int* const solution_ptr){
     int* currentSolution = this->ininitialSolution;
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);

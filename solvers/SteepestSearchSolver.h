@@ -12,6 +12,7 @@ class SteepestSearchSolver : public Solver {
         void solve(int* const solution_ptr) override;
         void set_problem_instance(ProblemInstance* problem_instance);
         void reset();
+        std::string get_name() const override;
 };
         
 
