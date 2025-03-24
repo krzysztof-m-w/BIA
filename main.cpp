@@ -16,15 +16,9 @@ int main() {
     DataLoader dl = DataLoader("qap/qapdatsol");
     Solver* solver = new GreedySearchSolver();
 
-    for(auto problem_name : problem_names){
-        dl.load_problem_instance(problem_name);
-    }
+    SolverEvaluator evaluator = SolverEvaluator(&dl, {solver}, problem_names);
 
-    for(auto& pi : dl.problem_instances){
-        solver->set_problem_instance(&pi);
-        int* solution = solver->solve();
-        std::cout << pi.name << " " << pi.compute_cost_quadratic(solution) << std::endl;
-    }
+    evaluator.evaluate_solvers();
 
     return 0;
 }

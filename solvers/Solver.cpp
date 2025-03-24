@@ -20,3 +20,7 @@ float Solver::measure_solve_time(){
 int Solver::get_iterations_counter(){
     return this->iterations_counter;
 }
+
+void Solver::reset_sovler(){
+    this->iterations_counter = 0;
+}

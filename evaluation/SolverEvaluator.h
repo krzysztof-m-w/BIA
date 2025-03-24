@@ -5,11 +5,18 @@
 #include "../utils/ProblemInstance.h"
 #include "../utils/DataLoader.h"
 
-
 class SolverEvaluator
 {
     private:
-        void save_results(const std::string& file_name);
+    void save_results(
+        const std::string& problem_name, 
+        const std::string& solver_name,
+        const std::vector<int*>& solutions,
+        const std::vector<int>& iteration_counts,
+        const std::vector<int>& costs,
+        const float avg_time,
+        const int n
+    );
 
         DataLoader* dl;
         std::vector<Solver*> solvers;
@@ -18,8 +25,5 @@ class SolverEvaluator
         ~SolverEvaluator();
         void evaluate_solvers();
 };
-
-
-
 
 #endif
