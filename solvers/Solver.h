@@ -15,6 +15,7 @@ class Solver {
         int get_iterations_counter();
         virtual void reset();
         virtual std::string get_name() const = 0;
+        virtual void read_configuration(const std::string& file_path, const std::string& problem_name);
 };
 
 #endif

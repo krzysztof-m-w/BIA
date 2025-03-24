@@ -24,3 +24,7 @@ void Solver::reset(){
 std::string Solver::get_name() const {
     return "DefaultSolver"; // Replace with the appropriate name for the solver
 }
+
+void Solver::read_configuration(const std::string& file_path, const std::string& problem_name){
+    std::cout << "No configuration needed for solver: " + this->get_name() << std::endl;
+}

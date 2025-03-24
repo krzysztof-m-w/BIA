@@ -1,9 +1,11 @@
 #include "RandomWalkSolver.h"
 #include "../utils/time_measure.h"
 #include "../utils/random.h"
+#include "../utils/read_json.h"
 
 RandomWalkSolver::RandomWalkSolver() : Solver(){
     this->max_time = 1.0;
+    this->global_configuration = false;
 }
 
 
@@ -13,6 +15,30 @@ void RandomWalkSolver::set_max_time(float max_time){
 
 std::string RandomWalkSolver::get_name() const {
     return "RandomWalkSolver";
+}
+
+void RandomWalkSolver::read_configuration(const std::string& file_path, const std::string& problem_name){
+    if(this->global_configuration){
+        std::cout << "Global configuration already set for solver: " + this->get_name() << std::endl;
+        return;
+    }
+    nlohmann::json json;
+    if(file_path != ""){
+        std::cout << "Reading configuration from file: " + file_path << std::endl;
+        json = read_json(file_path, {"max_time"});
+        this->global_configuration = true;
+    }else if(problem_name != ""){
+        std::string file_path = "results/" + problem_name + "-GreedySearchSolver.json";
+        std::cout << "Trying to read configuration from file: " + file_path << std::endl;
+        json = read_json(file_path, {"avg_time"});
+        this->max_time = json["avg_time"];
+        return;
+    }else{
+        std::string default_file_path = "config/" + this->get_name() + ".json";
+        std::cout << "Trying to read default configuration from: " + default_file_path << std::endl;
+        json = read_json(default_file_path, {"max_time"});
+    }
+    this->max_time = json["max_time"];
 }
 
 void RandomWalkSolver::solve(int* const solution_ptr){

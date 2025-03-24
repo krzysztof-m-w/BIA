@@ -48,11 +48,12 @@ void SolverEvaluator::save_results(
     }
 
     // Save to file
-    std::ofstream file("results/" + problem_name + "-" + solver_name + ".json");
+    std::string file_name = "results/" + problem_name + "-" + solver_name + ".json";
+    std::ofstream file(file_name);
     if (file.is_open()) {
         file << jsonData.dump(4); 
         file.close();
-        std::cout << "JSON saved to data.json" << std::endl;
+        std::cout << "saving results to: " + file_name << std::endl;
     } else {
         std::cerr << "Could not open file!" << std::endl;
     }
@@ -63,6 +64,7 @@ void SolverEvaluator::evaluate_solvers(){
     for(auto& pi : this->dl->problem_instances){
         for(auto solver : solvers){
             solver->set_problem_instance(&pi);
+            solver->read_configuration("", pi.name);
             int counter = 0;
             float avg_time;
             std::list<int*> solutions;
