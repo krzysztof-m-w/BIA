@@ -21,9 +21,9 @@ SolverEvaluator::~SolverEvaluator()
 void SolverEvaluator::save_results(
     const std::string& problem_name, 
     const std::string& solver_name,
-    const std::vector<int*>& solutions,
-    const std::vector<int>& iteration_counts,
-    const std::vector<int>& costs,
+    const std::list<int*>& solutions,
+    const std::list<int>& iteration_counts,
+    const std::list<int>& costs,
     const float avg_time,
     const int n
 ){
@@ -32,12 +32,19 @@ void SolverEvaluator::save_results(
     jsonData["problem_name"] = problem_name;
     jsonData["solver_name"] = solver_name;
     jsonData["avg_time"] = avg_time;
-    for(int i=0; i<solutions.size(); i++){
+    auto it_solution = solutions.begin();
+    auto it_iteration = iteration_counts.begin();
+    auto it_cost = costs.begin();
+    while (it_solution != solutions.end() && it_iteration != iteration_counts.end() && it_cost != costs.end()) {
         nlohmann::json solutionData;
-        solutionData["solution"] = std::vector<int>(solutions[i], solutions[i] + n);
-        solutionData["iteration_counts"] = iteration_counts[i];
-        solutionData["cost"] = costs[i];
+        solutionData["solution"] = std::vector<int>(*it_solution, *it_solution + n);
+        solutionData["iteration_counts"] = *it_iteration;
+        solutionData["cost"] = *it_cost;
         jsonData["solutions"].push_back(solutionData);
+
+        ++it_solution;
+        ++it_iteration;
+        ++it_cost;
     }
 
     // Save to file
@@ -58,13 +65,19 @@ void SolverEvaluator::evaluate_solvers(){
             solver->set_problem_instance(&pi);
             int counter = 0;
             float avg_time;
-            std::vector<int*> solutions;
-            std::vector<int> iteration_counts;
-            std::vector<int> costs;
+            std::list<int*> solutions;
+            std::list<int> iteration_counts;
+            std::list<int> costs;
             TimePoint start_time = time_now();
+            int* solution;
             do{
+                // Memory must be freed at the end
+                solution = new int[pi.n];
+
+                // Ensure the solver starts from an initial configuration
                 solver->reset();
-                int* solution = solver->solve();
+                solver->solve(solution);
+
                 solutions.push_back(solution);
                 iteration_counts.push_back(solver->get_iterations_counter());
             }while (time_diff(start_time, time_now()) < 1 || counter++ < 100);
@@ -74,7 +87,10 @@ void SolverEvaluator::evaluate_solvers(){
                 costs.push_back(pi.compute_cost_quadratic(solution));
             }
             this->save_results(pi.name, "test", solutions, iteration_counts, costs, avg_time, pi.n);
-
+            // Free memory
+            for(auto solution : solutions){
+                delete[] solution;
+            }
 
         }
     }

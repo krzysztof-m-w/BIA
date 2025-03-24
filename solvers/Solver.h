@@ -12,7 +12,6 @@ class Solver{
         Solver();
         virtual ~Solver();
         virtual void set_problem_instance(ProblemInstance* problem_instance);
-        float measure_solve_time();
         int get_iterations_counter();
         virtual void reset();       
 };;

@@ -13,10 +13,6 @@ void Solver::set_problem_instance(ProblemInstance* problem_instance){
     this->problem_instance = problem_instance;
 }
 
-float Solver::measure_solve_time(){
-    return time_measure(&Solver::solve, this);
-}
-
 int Solver::get_iterations_counter(){
     return this->iterations_counter;
 }
