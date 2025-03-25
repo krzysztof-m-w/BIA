@@ -136,15 +136,13 @@ int** ProblemInstance::get_matrix2()
     return this->matrix2;
 }
 
-int* ProblemInstance::get_random_solution()
+void ProblemInstance::get_random_solution(int* solution)
 {
-    int* solution = new int[this->n];
     for (int i = 0; i < this->n; i++)
     {
         solution[i] = i;
     }
     shuffle(solution, this->n);
-    return solution;
 }
 
 int ProblemInstance::get_neighborhood_2opt_size()

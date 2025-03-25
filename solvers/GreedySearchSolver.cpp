@@ -1,30 +1,23 @@
 #include "GreedySearchSolver.h"
 
 GreedySearchSolver::GreedySearchSolver() : Solver() {
-    this->ininitialSolution = NULL;
+    this->ininitialSolution = nullptr;
 }
 
 GreedySearchSolver::~GreedySearchSolver() {
-    if(this->ininitialSolution != NULL){
-        delete[] this->ininitialSolution;
-    }
     Solver::~Solver();
 }
 
 void GreedySearchSolver::set_problem_instance(ProblemInstance* problem_instance) {
     Solver::set_problem_instance(problem_instance);
-    if(this->ininitialSolution != NULL){
-        delete[] this->ininitialSolution;
-    }
-    this->ininitialSolution = this->problem_instance->get_random_solution();
+    this->ininitialSolution = std::make_unique<int[]>(problem_instance->n);
+    this->problem_instance->get_random_solution(this->ininitialSolution.get());
 }
 
 void GreedySearchSolver::reset(){
     Solver::reset();
-    if(this->ininitialSolution != NULL){
-        delete[] this->ininitialSolution;
-    }
-    this->ininitialSolution = this->problem_instance->get_random_solution();
+    this->ininitialSolution = std::make_unique<int[]>(problem_instance->n);
+    this->problem_instance->get_random_solution(this->ininitialSolution.get());
 }
 
 std::string GreedySearchSolver::get_name() const {
@@ -32,7 +25,8 @@ std::string GreedySearchSolver::get_name() const {
 }
 
 void GreedySearchSolver::solve(int* const solution_ptr){
-    int* currentSolution = this->ininitialSolution;
+    int* currentSolution = new int[this->problem_instance->n];
+    std::copy(this->ininitialSolution.get(), this->ininitialSolution.get() + this->problem_instance->n, currentSolution);
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);
     int moveCost;
     bool improvement = true;

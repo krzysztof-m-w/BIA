@@ -16,7 +16,8 @@ void SteepestSearchSolver::set_problem_instance(ProblemInstance* problem_instanc
     if(this->ininitialSolution != NULL){
         delete[] this->ininitialSolution;
     }
-    this->ininitialSolution = this->problem_instance->get_random_solution();
+    this->ininitialSolution = new int[problem_instance->n];
+    this->problem_instance->get_random_solution(this->ininitialSolution);
 }
 
 void SteepestSearchSolver::reset(){
@@ -24,7 +25,8 @@ void SteepestSearchSolver::reset(){
     if(this->ininitialSolution != NULL){
         delete[] this->ininitialSolution;
     }
-    this->ininitialSolution = this->problem_instance->get_random_solution();
+    this->ininitialSolution = new int[problem_instance->n];
+    this->problem_instance->get_random_solution(this->ininitialSolution);
 }
 
 std::string SteepestSearchSolver::get_name() const {

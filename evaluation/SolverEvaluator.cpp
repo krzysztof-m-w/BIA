@@ -82,7 +82,8 @@ void SolverEvaluator::evaluate_solvers(){
 
                 solutions.push_back(solution);
                 iteration_counts.push_back(solver->get_iterations_counter());
-            }while (time_diff(start_time, time_now()) < 1 || counter++ < 100);
+                counter++;
+            }while (time_diff(start_time, time_now()) < 1 || counter < 100);
             TimePoint end_time = time_now();
             avg_time = time_diff(start_time, end_time) / counter;
             for(auto solution : solutions){

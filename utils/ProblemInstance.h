@@ -31,7 +31,7 @@ public:
     std::vector<std::tuple<int, int>>::iterator get_neighborhood_end();
     int** get_matrix1();
     int** get_matrix2();
-    int* get_random_solution();
+    void get_random_solution(int* solution_ptr);
     int get_neighborhood_2opt_size();
     void apply_move_2opt(int* solution, int i, int j);
 };

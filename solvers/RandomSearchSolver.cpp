@@ -45,10 +45,12 @@ void RandomSearchSolver::read_configuration(const std::string& file_path, const 
 }
 
 void RandomSearchSolver::solve(int* const solution_ptr) {
-    int* best_solution = this->problem_instance->get_random_solution();
+    int* best_solution = new int[this->problem_instance->n];
+    this->problem_instance->get_random_solution(best_solution);
     int best_cost = this->problem_instance->compute_cost_quadratic(best_solution);
 
-    int* current_solution = this->problem_instance->get_random_solution();
+    int* current_solution = new int[this->problem_instance->n];
+    this->problem_instance->get_random_solution(current_solution);
     int current_cost;
 
     TimePoint start_time = time_now();

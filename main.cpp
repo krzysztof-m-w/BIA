@@ -10,9 +10,15 @@
 
 #include "utils/read_json.h"
 
-std::vector<std::string> problem_names = {"bur26a"};
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cerr << "Usage: " << argv[0] << " <problem_name>" << std::endl;
+        return 1;
+    }
 
-int main() {
+    std::string problem_name = argv[1];
+
+
     DataLoader dl = DataLoader("qap/qapdatsol");
     Solver* greedySearchSolver = new GreedySearchSolver();
     Solver* steepestSearchSolver = new SteepestSearchSolver();
@@ -24,10 +30,11 @@ int main() {
     SolverEvaluator evaluator1 = SolverEvaluator(
         &dl,
         {greedySearchSolver, steepestSearchSolver, heuristicSolver, randomSearchSolver, randomWalkSolver},
-        problem_names
+        {problem_name}
     );
 
     evaluator1.evaluate_solvers();
+
 
 
     return 0;

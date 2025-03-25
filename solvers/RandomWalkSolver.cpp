@@ -42,7 +42,8 @@ void RandomWalkSolver::read_configuration(const std::string& file_path, const st
 }
 
 void RandomWalkSolver::solve(int* const solution_ptr){
-    int* current_solution = this->problem_instance->get_random_solution();
+    int* current_solution = new int[this->problem_instance->n];
+    this->problem_instance->get_random_solution(current_solution);
     int current_cost = this->problem_instance->compute_cost_quadratic(current_solution);
     int n = this->problem_instance->n;
 
