@@ -16,6 +16,7 @@ class SolverEvaluator
         const std::list<int*>& solutions,
         const std::list<int>& iteration_counts,
         const std::list<int>& costs,
+        const std::list<int>& step_counts,
         const float avg_time,
         const int n,
         const int optimal_cost

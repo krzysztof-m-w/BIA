@@ -6,6 +6,7 @@
 class SteepestSearchSolver : public Solver {
     private:
         int* ininitialSolution;
+        int step_counter;
     public:
         SteepestSearchSolver();
         ~SteepestSearchSolver();
@@ -13,6 +14,7 @@ class SteepestSearchSolver : public Solver {
         void set_problem_instance(ProblemInstance* problem_instance) override;
         void reset();
         std::string get_name() const override;
+        int get_step_counter() override;
 };
         
 

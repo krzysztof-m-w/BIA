@@ -28,3 +28,7 @@ std::string Solver::get_name() const {
 void Solver::read_configuration(const std::string& file_path, const std::string& problem_name){
     std::cout << "No configuration needed for solver: " + this->get_name() << std::endl;
 }
+
+int Solver::get_step_counter(){
+    return this->get_iterations_counter();
+}

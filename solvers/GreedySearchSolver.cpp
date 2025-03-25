@@ -2,6 +2,7 @@
 
 GreedySearchSolver::GreedySearchSolver() : Solver() {
     this->ininitialSolution = nullptr;
+    this->step_counter = 0;
 }
 
 GreedySearchSolver::~GreedySearchSolver() {
@@ -18,10 +19,16 @@ void GreedySearchSolver::reset(){
     Solver::reset();
     this->ininitialSolution = std::make_unique<int[]>(problem_instance->n);
     this->problem_instance->get_random_solution(this->ininitialSolution.get());
+    this->step_counter=0;
 }
 
 std::string GreedySearchSolver::get_name() const {
     return "GreedySearchSolver";
+}
+
+int GreedySearchSolver::get_step_counter()
+{
+    return this->step_counter;
 }
 
 void GreedySearchSolver::solve(int* const solution_ptr){
@@ -42,6 +49,7 @@ void GreedySearchSolver::solve(int* const solution_ptr){
             if(moveCost < 0){
                 this->problem_instance->apply_move_2opt(currentSolution, i, j);
                 improvement = true;
+                this->step_counter++;
                 break;
             }
             this->iterations_counter++;

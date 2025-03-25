@@ -24,6 +24,7 @@ void SolverEvaluator::save_results(
     const std::list<int*>& solutions,
     const std::list<int>& iteration_counts,
     const std::list<int>& costs,
+    const std::list<int>& step_counts,
     const float avg_time,
     const int n,
     const int optimal_cost
@@ -37,16 +38,21 @@ void SolverEvaluator::save_results(
     auto it_solution = solutions.begin();
     auto it_iteration = iteration_counts.begin();
     auto it_cost = costs.begin();
-    while (it_solution != solutions.end() && it_iteration != iteration_counts.end() && it_cost != costs.end()) {
+    auto it_step_counts = step_counts.begin();
+    while (
+        it_solution != solutions.end()
+    ) {
         nlohmann::json solutionData;
         solutionData["solution"] = std::vector<int>(*it_solution, *it_solution + n);
         solutionData["iteration_counts"] = *it_iteration;
         solutionData["cost"] = *it_cost;
+        solutionData["step_count"] = *it_step_counts;
         jsonData["solutions"].push_back(solutionData);
 
         ++it_solution;
         ++it_iteration;
         ++it_cost;
+        ++it_step_counts;
     }
 
     // Save to file
@@ -73,6 +79,7 @@ void SolverEvaluator::evaluate_solvers(){
             std::list<int*> solutions;
             std::list<int> iteration_counts;
             std::list<int> costs;
+            std::list<int> step_counts;
             TimePoint start_time = time_now();
             int* solution;
             do{
@@ -85,6 +92,7 @@ void SolverEvaluator::evaluate_solvers(){
 
                 solutions.push_back(solution);
                 iteration_counts.push_back(solver->get_iterations_counter());
+                step_counts.push_back(solver->get_step_counter());
                 counter++;
             }while (time_diff(start_time, time_now()) < 1 || counter < 100);
             TimePoint end_time = time_now();
@@ -92,7 +100,17 @@ void SolverEvaluator::evaluate_solvers(){
             for(auto solution : solutions){
                 costs.push_back(pi.compute_cost_quadratic(solution));
             }
-            this->save_results(pi.name, solver->get_name(), solutions, iteration_counts, costs, avg_time, pi.n, pi.optimal_cost);
+            this->save_results(
+                pi.name,
+                solver->get_name(),
+                solutions,
+                iteration_counts,
+                costs,
+                step_counts,
+                avg_time,
+                pi.n,
+                pi.optimal_cost
+            );
             // Free memory
             for(auto solution : solutions){
                 delete[] solution;

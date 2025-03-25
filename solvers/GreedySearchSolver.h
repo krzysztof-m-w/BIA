@@ -8,6 +8,7 @@
 class GreedySearchSolver : public Solver {
     private:
         std::unique_ptr<int[]> ininitialSolution;
+        int step_counter;
     public:
         GreedySearchSolver();
         ~GreedySearchSolver();
@@ -15,6 +16,7 @@ class GreedySearchSolver : public Solver {
         void set_problem_instance(ProblemInstance* problem_instance) override;
         void reset();
         std::string get_name() const override;
+        int get_step_counter() override;
 };
 
 #endif

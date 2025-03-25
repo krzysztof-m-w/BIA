@@ -2,6 +2,7 @@
 
 SteepestSearchSolver::SteepestSearchSolver() : Solver() {
     this->ininitialSolution = NULL;
+    this->step_counter = 0;
 }
 
 SteepestSearchSolver::~SteepestSearchSolver() {
@@ -27,10 +28,16 @@ void SteepestSearchSolver::reset(){
     }
     this->ininitialSolution = new int[problem_instance->n];
     this->problem_instance->get_random_solution(this->ininitialSolution);
+    this->step_counter=0;
 }
 
 std::string SteepestSearchSolver::get_name() const {
     return "SteepestSearchSolver";
+}
+
+int SteepestSearchSolver::get_step_counter()
+{
+    return this->step_counter;
 }
 
 void SteepestSearchSolver::solve(int* const solution_ptr){
@@ -62,6 +69,7 @@ void SteepestSearchSolver::solve(int* const solution_ptr){
             j = std::get<1>(bestMove);
             current_cost += bestMoveCost;
             this->problem_instance->apply_move_2opt(currentSolution, i, j);
+            this->step_counter++;
         }else{
             break;
         }
