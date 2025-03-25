@@ -17,7 +17,8 @@ class SolverEvaluator
         const std::list<int>& iteration_counts,
         const std::list<int>& costs,
         const float avg_time,
-        const int n
+        const int n,
+        const int optimal_cost
     );
 
         DataLoader* dl;

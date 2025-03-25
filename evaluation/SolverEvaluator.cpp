@@ -25,13 +25,15 @@ void SolverEvaluator::save_results(
     const std::list<int>& iteration_counts,
     const std::list<int>& costs,
     const float avg_time,
-    const int n
+    const int n,
+    const int optimal_cost
 ){
     // Create JSON object
     nlohmann::json jsonData;
     jsonData["problem_name"] = problem_name;
     jsonData["solver_name"] = solver_name;
     jsonData["avg_time"] = avg_time;
+    jsonData["optimal_cost"] = optimal_cost;
     auto it_solution = solutions.begin();
     auto it_iteration = iteration_counts.begin();
     auto it_cost = costs.begin();
@@ -66,6 +68,7 @@ void SolverEvaluator::evaluate_solvers(){
             solver->set_problem_instance(&pi);
             solver->read_configuration("", pi.name);
             int counter = 0;
+            float avg_cost;
             float avg_time;
             std::list<int*> solutions;
             std::list<int> iteration_counts;
@@ -89,7 +92,7 @@ void SolverEvaluator::evaluate_solvers(){
             for(auto solution : solutions){
                 costs.push_back(pi.compute_cost_quadratic(solution));
             }
-            this->save_results(pi.name, solver->get_name(), solutions, iteration_counts, costs, avg_time, pi.n);
+            this->save_results(pi.name, solver->get_name(), solutions, iteration_counts, costs, avg_time, pi.n, pi.optimal_cost);
             // Free memory
             for(auto solution : solutions){
                 delete[] solution;
