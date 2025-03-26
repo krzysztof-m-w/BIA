@@ -3,3 +3,5 @@
 /data
 /results
 /results_compressed
+*.obj
+*.pdb
