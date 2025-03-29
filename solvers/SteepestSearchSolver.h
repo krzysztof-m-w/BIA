@@ -15,6 +15,7 @@ class SteepestSearchSolver : public Solver {
         void reset();
         std::string get_name() const override;
         int get_step_counter() override;
+        void set_solve_info(const int* const solution) override;
 };
         
 

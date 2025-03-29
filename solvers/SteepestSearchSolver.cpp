@@ -40,8 +40,16 @@ int SteepestSearchSolver::get_step_counter()
     return this->step_counter;
 }
 
+void SteepestSearchSolver::set_solve_info(const int *const solution)
+{
+    Solver::set_solve_info(solution);
+    nlohmann::json* solutionData = &this->solution_info.back();
+    solutionData->operator[]("initial_cost") = this->problem_instance->compute_cost_quadratic(this->ininitialSolution);
+}
+
 void SteepestSearchSolver::solve(int* const solution_ptr){
-    int* currentSolution = this->ininitialSolution;
+    int* currentSolution = new int[this->problem_instance->n];
+    std::copy(this->ininitialSolution, this->ininitialSolution + this->problem_instance->n, currentSolution);
     int current_cost = this->problem_instance->compute_cost_quadratic(currentSolution);
     std::tuple<int, int> bestMove;
     int moveCost, bestMoveCost;
@@ -77,5 +85,6 @@ void SteepestSearchSolver::solve(int* const solution_ptr){
     }
 
     std::copy(currentSolution, currentSolution + this->problem_instance->n, solution_ptr);
+    delete currentSolution;
 }
     

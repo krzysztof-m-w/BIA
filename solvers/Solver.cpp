@@ -1,5 +1,6 @@
 #include "Solver.h"
 #include "../utils/time_measure.h"
+#include "../include/json.hpp"
 
 Solver::Solver(){
     this->problem_instance = nullptr;
@@ -31,4 +32,24 @@ void Solver::read_configuration(const std::string& file_path, const std::string&
 
 int Solver::get_step_counter(){
     return this->get_iterations_counter();
+}
+
+void Solver::set_solve_info(const int* const solution){
+    nlohmann::json solutionData;
+    solutionData["solution"] = std::vector<int>(solution, solution + this->problem_instance->n);
+    solutionData["iteration_counts"] = this->get_iterations_counter();
+    solutionData["step_count"] = this->get_step_counter();
+    this->solution_info.push_back(solutionData);
+}
+
+void Solver::add_cost_to_solve_info(){
+    for(auto& solutionData : this->solution_info){
+        std::vector<int> solution = solutionData["solution"].get<std::vector<int>>();
+        solutionData["cost"] = this->problem_instance->compute_cost_quadratic(solution.data());
+    }
+}
+
+
+std::list<nlohmann::json> Solver::get_solution_info(){
+    return this->solution_info;
 }

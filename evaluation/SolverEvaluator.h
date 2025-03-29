@@ -4,6 +4,7 @@
 #include "../solvers/Solver.h"
 #include "../utils/ProblemInstance.h"
 #include "../utils/DataLoader.h"
+#include "../include/json.hpp"
 
 #include <list>
 
@@ -13,10 +14,7 @@ class SolverEvaluator
     void save_results(
         const std::string& problem_name, 
         const std::string& solver_name,
-        const std::list<int*>& solutions,
-        const std::list<int>& iteration_counts,
-        const std::list<int>& costs,
-        const std::list<int>& step_counts,
+        const std::list<nlohmann::json>& solution_info,
         const float avg_time,
         const int n,
         const int optimal_cost

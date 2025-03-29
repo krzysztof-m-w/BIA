@@ -1,4 +1,5 @@
 #include "GreedySearchSolver.h"
+#include "../include/json.hpp"
 
 GreedySearchSolver::GreedySearchSolver() : Solver() {
     this->ininitialSolution = nullptr;
@@ -29,6 +30,13 @@ std::string GreedySearchSolver::get_name() const {
 int GreedySearchSolver::get_step_counter()
 {
     return this->step_counter;
+}
+
+void GreedySearchSolver::set_solve_info(const int *const solution)
+{
+    Solver::set_solve_info(solution);
+    nlohmann::json* solutionData = &this->solution_info.back();
+    solutionData->operator[]("initial_cost") = this->problem_instance->compute_cost_quadratic(this->ininitialSolution.get());
 }
 
 void GreedySearchSolver::solve(int* const solution_ptr){
