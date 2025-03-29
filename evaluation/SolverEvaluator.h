@@ -16,8 +16,7 @@ class SolverEvaluator
         const std::string& solver_name,
         const std::list<nlohmann::json>& solution_info,
         const float avg_time,
-        const int n,
-        const int optimal_cost
+        const ProblemInstance* problem_instance
     );
 
         DataLoader* dl;

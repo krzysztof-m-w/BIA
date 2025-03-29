@@ -23,15 +23,15 @@ void SolverEvaluator::save_results(
     const std::string& solver_name,
     const std::list<nlohmann::json>& solution_info,
     const float avg_time,
-    const int n,
-    const int optimal_cost
+    const ProblemInstance* problem_instance
 ){
     // Create JSON object
     nlohmann::json jsonData;
     jsonData["problem_name"] = problem_name;
     jsonData["solver_name"] = solver_name;
     jsonData["avg_time"] = avg_time;
-    jsonData["optimal_cost"] = optimal_cost;
+    jsonData["optimal_cost"] = problem_instance->optimal_cost;
+    jsonData["optimal_solution"] = std::vector<int>(problem_instance->optimal_solution, problem_instance->optimal_solution + problem_instance->n);
 
     for(auto& solutionData: solution_info) {
         jsonData["solutions"].push_back(solutionData);
@@ -80,8 +80,7 @@ void SolverEvaluator::evaluate_solvers(){
                 solver->get_name(),
                 solver->get_solution_info(),
                 avg_time,
-                pi.n,
-                pi.optimal_cost
+                &pi
             );
             // Free memory
         }
