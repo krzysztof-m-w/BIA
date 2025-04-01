@@ -56,24 +56,37 @@ void SolverEvaluator::evaluate_solvers(){
             solver->set_problem_instance(&pi);
             solver->read_configuration("", pi.name);
             int counter = 0;
+            int total_counter = -1;
             float avg_cost;
             float avg_time;
-            TimePoint start_time = time_now();
+            TimePoint start_time;
             int* solution;
+            std::list<std::tuple<int, float>> avg_times;
             solution = new int[pi.n];
-            do{
-                // Memory must be freed at the end
+            for(int i=0; i<10; i++){
+                start_time = time_now();
+                do{
+                    // Memory must be freed at the end
 
-                // Ensure the solver starts from an initial configuration
-                solver->reset();
-                solver->solve(solution);
+                    // Ensure the solver starts from an initial configuration
+                    solver->reset();
+                    solver->solve(solution);
 
-                solver->set_solve_info(solution);
-                counter++;
-            }while (time_diff(start_time, time_now()) < 1 || counter < 100);
-            TimePoint end_time = time_now();
-            avg_time = time_diff(start_time, end_time) / counter;
+                    solver->set_solve_info(solution);
+                    counter++;
+                }while (time_diff(start_time, time_now()) < 0.1);
+                TimePoint end_time = time_now();
+                avg_time = time_diff(start_time, end_time) / counter;
+                avg_times.push_back(std::make_tuple(counter, avg_time));
+                counter = 0;
+            }
             solver->add_cost_to_solve_info();
+            for(auto& time_result: avg_times){
+                int current_counter = std::get<0>(time_result);
+                float current_avg_time = std::get<1>(time_result);
+                solver->add_time_to_solve_info(total_counter, current_counter, current_avg_time);
+                total_counter += current_counter;
+            }
             delete[] solution;
             this->save_results(
                 pi.name,
@@ -82,7 +95,6 @@ void SolverEvaluator::evaluate_solvers(){
                 avg_time,
                 &pi
             );
-            // Free memory
         }
     }
             

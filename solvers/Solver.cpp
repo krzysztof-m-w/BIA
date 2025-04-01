@@ -49,6 +49,18 @@ void Solver::add_cost_to_solve_info(){
     }
 }
 
+void Solver::add_time_to_solve_info(int start, int offset, float avg_time)
+{
+    auto solutionDataIterator = std::next(this->solution_info.begin(), start);
+    for(int i=0; i<offset; i++){
+        solutionDataIterator++;
+        if (solutionDataIterator != this->solution_info.end() && solutionDataIterator->is_object()) {
+            (*solutionDataIterator)["avg_time"] = avg_time;
+        } else {
+            return;
+        }
+    }
+}
 
 std::list<nlohmann::json> Solver::get_solution_info(){
     return this->solution_info;

@@ -23,6 +23,7 @@ class Solver {
         virtual void set_solve_info(const int* const solution);
         std::list<nlohmann::json> get_solution_info();
         void add_cost_to_solve_info();
+        void add_time_to_solve_info(int start, int end, float avg_time);
 };
 
 #endif
