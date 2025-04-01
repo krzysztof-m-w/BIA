@@ -66,8 +66,6 @@ void SolverEvaluator::evaluate_solvers(){
             for(int i=0; i<10; i++){
                 start_time = time_now();
                 do{
-                    // Memory must be freed at the end
-
                     // Ensure the solver starts from an initial configuration
                     solver->reset();
                     solver->solve(solution);
