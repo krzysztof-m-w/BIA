@@ -6,9 +6,10 @@
 
 
 class GreedySearchSolver : public Solver {
+    protected:
+        int step_counter;
     private:
         std::unique_ptr<int[]> ininitialSolution;
-        int step_counter;
     public:
         GreedySearchSolver();
         ~GreedySearchSolver();

@@ -2,6 +2,7 @@
 #define RANDOM_H
 
 int get_random_number(int n);
+float get_random_number();
 
 template<typename T>
 void shuffle(std::vector<T>& container) {
