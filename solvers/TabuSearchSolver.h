@@ -10,7 +10,7 @@ class TabuSearchSolver : public SteepestSearchSolver {
     public:
         TabuSearchSolver();
         ~TabuSearchSolver();
-        std::vector<std::tuple<int, int>> get_candidate_list(int *const currentSolution, int candidateListSize);
+        virtual std::vector<std::tuple<int, int>> get_candidate_list(int *const currentSolution, int candidateListSize);
         void update_tabu_list(std::vector<std::vector<int>> &tabuList);
         void solve(int *const solution_ptr) override;
         std::string get_name() const override;

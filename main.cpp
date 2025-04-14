@@ -8,6 +8,7 @@
 #include "solvers/GreedySearchSolver.h"
 #include "solvers/SimulatedAnnealingSolver.h"
 #include "solvers/TabuSearchSolver.h"
+#include "solvers/VanillaTabuSearchSolver.h"
 #include "evaluation/SolverEvaluator.h"
 
 #include "utils/read_json.h"
@@ -47,6 +48,9 @@ int main(int argc, char* argv[]) {
     }
     if(std::find(solver_names.begin(), solver_names.end(), "TabuSearchSolver") != solver_names.end()) {
         solvers.push_back(new TabuSearchSolver());
+    }
+    if(std::find(solver_names.begin(), solver_names.end(), "VanillaTabuSearchSolver") != solver_names.end()) {
+        solvers.push_back(new VanillaTabuSearchSolver());
     }
 
     SolverEvaluator evaluator1 = SolverEvaluator(
