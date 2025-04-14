@@ -16,5 +16,6 @@ public:
     SimulatedAnnealingSolver(/* args */);
     ~SimulatedAnnealingSolver();
     void solve(int* const solution_ptr) override;
+    std::string get_name() const override;
 };
 #endif

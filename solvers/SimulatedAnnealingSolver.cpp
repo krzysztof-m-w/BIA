@@ -88,9 +88,10 @@ void SimulatedAnnealingSolver::solve(int* const solution_ptr)
     int i, j;
     int steps_without_improvement = 0;
     const float initial_temperature = this->temperature;
-
-    while(steps_without_improvement < this->max_no_improvement || this->temperature > 0.1f * initial_temperature){
+    
+    while(steps_without_improvement < this->max_no_improvement || this->temperature > 0.01f * initial_temperature){
         step = false;
+        this->problem_instance->shuffle_neighborhood_2opt();
         while(!step){
             // iterate over the neighborhood until a solution is accepted or the neighborhood is exhausted
             for(auto neighborhood_it = this->problem_instance->get_neighborhood_iterator(); neighborhood_it != this->problem_instance->get_neighborhood_end(); neighborhood_it++){
@@ -121,4 +122,9 @@ void SimulatedAnnealingSolver::solve(int* const solution_ptr)
     }
 
     std::copy(currentSolution, currentSolution + this->problem_instance->n, solution_ptr);
+}
+
+std::string SimulatedAnnealingSolver::get_name() const
+{
+    return "SimulatedAnnealingSolver";
 }

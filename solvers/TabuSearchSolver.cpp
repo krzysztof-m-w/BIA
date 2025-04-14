@@ -25,11 +25,14 @@ std::vector<std::tuple<int,int>> TabuSearchSolver::get_candidate_list(int* const
     }
     candidateCostsOrder = argsort(candidateCosts, candidateListSize);
 
-    std::vector<std::tuple<int, int>> orderedCandidateList(candidateListSize*0.2);
-    for (int it = 0; it < candidateListSize*0.2; it++) {
-        orderedCandidateList[it] = candidateList[candidateCostsOrder[it]];
+    std::vector<std::tuple<int, int>> orderedCandidateList;
+    int limit = static_cast<int>(candidateListSize * 0.2);
+
+    for (int it = 0; it < limit; it++) {
+        orderedCandidateList.push_back(candidateList[candidateCostsOrder[it]]);
     }
-    return std::move(orderedCandidateList);
+    delete[] candidateCosts;
+    return orderedCandidateList;
 }
 
 void TabuSearchSolver::update_tabu_list(std::vector<std::vector<int>>& tabuList){
@@ -85,4 +88,11 @@ void TabuSearchSolver::solve(int *const solution_ptr)
     }
 
     std::copy(bestSolution, bestSolution + this->problem_instance->n, solution_ptr);
+    delete[] currentSolution;
+    delete[] bestSolution;
+}
+
+std::string TabuSearchSolver::get_name() const
+{
+    return "TabuSearchSolver";
 }
