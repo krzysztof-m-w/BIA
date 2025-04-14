@@ -4,9 +4,10 @@
 #include "Solver.h"
 
 class SteepestSearchSolver : public Solver {
+    protected:
+        int step_counter;
     private:
         int* ininitialSolution;
-        int step_counter;
     public:
         SteepestSearchSolver();
         ~SteepestSearchSolver();
