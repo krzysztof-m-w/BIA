@@ -5,3 +5,4 @@
 /results_compressed
 *.obj
 *.pdb
+plots/
