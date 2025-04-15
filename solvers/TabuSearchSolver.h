@@ -7,6 +7,7 @@ class TabuSearchSolver : public SteepestSearchSolver {
     protected:
         int max_no_improvement = 2000;
         int tabu_tenure;
+        float cantidateListSizeFactor = 0.2f;
     public:
         TabuSearchSolver();
         ~TabuSearchSolver();

@@ -47,7 +47,7 @@ void TabuSearchSolver::update_tabu_list(std::vector<std::vector<int>>& tabuList)
 
 void TabuSearchSolver::solve(int *const solution_ptr)
 {
-    int candidateListSize = this->problem_instance->get_neighborhood_2opt_size() * 0.2;
+    int candidateListSize = this->problem_instance->get_neighborhood_2opt_size() * 0.4;
 
     int* currentSolution = new int[this->problem_instance->n];
     this->problem_instance->get_random_solution(currentSolution);
@@ -69,6 +69,7 @@ void TabuSearchSolver::solve(int *const solution_ptr)
             int i, j;
             std::tie(i, j) = *candidate_iterator;
             int moveCost = this->problem_instance->compute_cost_delta(currentSolution, i, j, 0);
+            this->iterations_counter++;
             if(moveCost > worstDelta){
                 break;
             }
@@ -79,7 +80,6 @@ void TabuSearchSolver::solve(int *const solution_ptr)
             this->problem_instance->apply_move_2opt(currentSolution, i, j);
             this->update_tabu_list(tabuList);
             tabuList[i][j] = this->tabu_tenure;
-            this->iterations_counter++;
             this->step_counter++;
             no_improvement_counter++;
             if(current_cost < best_cost){
