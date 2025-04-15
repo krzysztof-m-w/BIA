@@ -69,6 +69,9 @@ void TabuSearchSolver::solve(int *const solution_ptr)
             int i, j;
             std::tie(i, j) = *candidate_iterator;
             int moveCost = this->problem_instance->compute_cost_delta(currentSolution, i, j, 0);
+            if(moveCost > worstDelta){
+                break;
+            }
             if(tabuList[i][j] > 0 && current_cost + moveCost > best_cost){
                 continue;
             }

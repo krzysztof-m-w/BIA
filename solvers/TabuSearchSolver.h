@@ -4,9 +4,9 @@
 #include "SteepestSearchSolver.h"
 
 class TabuSearchSolver : public SteepestSearchSolver {
-    private:
-        int tabu_tenure;
+    protected:
         int max_no_improvement = 2000;
+        int tabu_tenure;
     public:
         TabuSearchSolver();
         ~TabuSearchSolver();

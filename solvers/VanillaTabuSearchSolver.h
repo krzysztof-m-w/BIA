@@ -10,7 +10,7 @@ private:
 public:
     VanillaTabuSearchSolver(/* args */);
     ~VanillaTabuSearchSolver();
-    std::vector<std::tuple<int, int>> get_candidate_list(int *const currentSolution, int candidateListSize) override;
+    void solve(int *const solution_ptr);
     std::string get_name() const override;
 };
 
